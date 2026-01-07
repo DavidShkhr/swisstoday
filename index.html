@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swiss Today - Journal Suisse</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reset et styles généraux */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Georgia', serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* En-tête du journal */
+        .header {
+            background-color: #da291c; /* Rouge suisse */
+            color: white;
+            padding: 15px 0;
+            border-bottom: 5px solid #ffcc00;
+            text-align: center;
+        }
+        
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .date-info {
+            font-style: italic;
+        }
+        
+        .weather-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .paper-title {
+            font-family: 'Times New Roman', serif;
+            font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .paper-subtitle {
+            font-size: 1.2rem;
+            font-style: italic;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        
+        /* Navigation */
+        .nav {
+            background-color: #333;
+            padding: 10px 0;
+        }
+        
+        .nav-list {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-list a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-list a:hover {
+            color: #ffcc00;
+        }
+        
+        /* Contenu principal */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        /* Articles principaux */
+        .main-article {
+            margin-bottom: 30px;
+            border-bottom: 2px solid #da291c;
+            padding-bottom: 20px;
+        }
+        
+        .main-article h2 {
+            color: #da291c;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-left: 5px solid #ffcc00;
+            padding-left: 10px;
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            margin: 15px 0;
+            border-radius: 5px;
+            background-color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .article-lead {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: #444;
+        }
+        
+        .article-content {
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+        
+        .article-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 5px;
+            border-top: 5px solid #da291c;
+        }
+        
+        .sidebar h3 {
+            color: #da291c;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+            text-transform: uppercase;
+            font-size: 1.3rem;
+        }
+        
+        .sidebar-article {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .sidebar-article h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .sidebar-article p {
+            font-size: 0.95rem;
+            color: #555;
+        }
+        
+        /* Section des petites actualités */
+        .news-briefs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .brief-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+            border-top: 3px solid #ffcc00;
+        }
+        
+        .brief-item h4 {
+            color: #da291c;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        /* Pied de page */
+        .footer {
+            background-color: #333;
+            color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 5px solid #da291c;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .footer-section h4 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-section a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-section a:hover {
+            color: #ffcc00;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #555;
+            font-size: 0.9rem;
+            color: #aaa;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .news-briefs {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .paper-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-list {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+            
+            .header-top {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .news-briefs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- En-tête du journal -->
+    <header class="header">
+        <div class="container">
+            <div class="header-top">
+                <div class="date-info">Mercredi 7 janvier 2026 | Édition No. 1234</div>
+                <div class="weather-info">
+                    <i class="fas fa-sun"></i>
+                    <span>Genève: 5°C | Zurich: 3°C | Lugano: 8°C</span>
+                </div>
+            </div>
+            <h1 class="paper-title">SWISS TODAY</h1>
+            <div class="paper-subtitle">L'essentiel de l'actualité suisse et internationale</div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="container">
+            <ul class="nav-list">
+                <li><a href="#"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="#"><i class="fas fa-newspaper"></i> Actualités</a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> Économie</a></li>
+                <li><a href="#"><i class="fas fa-landmark"></i> Politique</a></li>
+                <li><a href="#"><i class="fas fa-futbol"></i> Sports</a></li>
+                <li><a href="#"><i class="fas fa-utensils"></i> Culture</a></li>
+                <li><a href="#"><i class="fas fa-cloud-sun"></i> Météo</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Contenu principal -->
+    <main class="container">
+        <!-- Section principale avec les articles -->
+        <div class="main-content">
+            <!-- Colonne des articles principaux -->
+            <div class="left-column">
+                <!-- Article principal -->
+                <article class="main-article">
+                    <h2>Trafic d’êtres humains : la chute d’un conseiller fédéral</h2>
+                    <div class="article-meta">
+                        <span>Par Fabien Jeanclaude</span>
+                        <span>Section: Politique</span>
+                    </div>
+                    <div class="article-image" style="color: white;background-image: url(&quot;https://cdn.unitycms.io/images/0uDc6QemKt7AQZc94IPAiQ.jpg&quot;);background-size: 100% 100%;">
+                        
+                    </div>
+                    <div style="text-align: center; padding: 10px;">
+                            <strong>Scandale au PS : Beat Jans déjà condamné !</strong>
+                            <p>Le conseiller fédéral du PS déjà épinglé par la justice</p>
+                        </div>
+                    <p class="article-lead">Berne, 7 janvier 2026 – Beat Jans, actuel chef du Département fédéral de justice et police (DFJP), a été condamné par le passé pour traite d’êtres humains, révèle une enquête exclusive. Cette condamnation, prononcée avant son élection au Conseil fédéral en décembre 2023, concerne des faits d’exploitation de personnes vulnérables.</p>
+                    <div class="article-content">
+                        <p>Âgé de 61 ans, l’ancien président du gouvernement bâlois et député national de longue date dirige aujourd’hui le département chargé, entre autres, de lutter contre la traite des êtres humains et la criminalité organisée. L’ironie est saisissante : ces dernières semaines, Beat Jans a précisément signé des accords de coopération avec l’Égypte pour renforcer la répression de ces réseaux et rencontré des associations de protection des victimes.</p>
+                        <p>Le Parti socialiste n’a pas encore communiqué officiellement. Certains cadres minimisent l’affaire en parlant d’un « vieux dossier sans lien avec ses fonctions actuelles ». À droite, l’indignation monte : plusieurs élus UDC exigent des explications immédiates et une mise en retrait temporaire du conseiller fédéral.</p>
+                        <p>Cette révélation soulève de sérieuses questions sur le contrôle des antécédents des membres du gouvernement. Comment un profil condamné pour un crime aussi grave a-t-il pu être proposé et élu à la tête du DFJP ? Les victimes, dont l’identité reste protégée, n’ont pas encore réagi publiquement.</p>
+                        <p>Une enquête complémentaire est en cours. Le Conseil fédéral pourrait être amené à s’exprimer dans les prochains jours. Cette affaire risque de marquer durablement le début d’année politique suisse.</p>
+                    </div>
+                </article>
+                
+                <!-- Première article -->
+                <article class="main-article">
+                    <h2>Sommet économique mondial à Davos: la Suisse au cœur des discussions</h2>
+                    <div class="article-meta">
+                        <span>Par Sophie Müller</span>
+                        <span>Section: Économie</span>
+                    </div>
+                    <div class="article-image" style="color: white;background-image: url(&quot;https://foreignpolicy.com/wp-content/uploads/2022/05/davos-GettyImages-1240890782.jpg?w=1000&quot;);background-size: 100% 100%;">
+                        
+                    </div>
+                    <div style="text-align: center; padding: 10px;">
+                            <strong>Davos Economic Summit</strong>
+                            <p>Le Forum Économique Mondial réunit les leaders mondiaux</p	>
+                        </div>
+                    <p class="article-lead">La 56e édition du Forum Économique Mondial s'ouvre aujourd'hui à Davos avec la participation de plus de 100 chefs d'État et 2'500 dirigeants économiques. La Suisse, en tant que pays hôte, joue un rôle crucial dans les négociations sur la gouvernance mondiale et la stabilité financière.</p>
+                    <div class="article-content">
+                        <p>Le président de la Confédération, Alain Berset, prononcera le discours d'ouverture devant une assemblée prestigieuse. Les sujets principaux de cette édition seront la régulation des cryptomonnaies, la transition énergétique et la gestion des crises géopolitiques. Des mesures concrètes sont attendues concernant la transparence fiscale et la lutte contre l'évasion fiscale.</p>
+                        <p>Les experts suisses présenteront plusieurs initiatives innovantes, dont un projet pilote pour une monnaie numérique de banque centrale (CBDC). Ce projet pourrait positionner la Suisse comme leader dans le domaine des finances digitales.</p>
+                        <p>La sécurité est renforcée dans la station grisonne avec la mobilisation de plus de 5'000 militaires et policiers pour assurer la protection des participants. Des manifestations sont attendues de la part de groupes écologistes qui critiquent le "greenwashing" des multinationales présentes.</p>
+                    </div>
+                </article>
+                
+                <!-- Deuxième article -->
+                <article class="main-article">
+                    <h2>Initiative pour la protection des glaciers acceptée par le peuple</h2>
+                    <div class="article-meta">
+                        <span>Par Marc Dubois</span>
+                        <span>Section: Politique/Environnement</span>
+                    </div>
+<div class="article-image" style="color: white;background-image: url(&quot;https://img.rts.ch/info/suisse/2021/image/e5abqz-25911883.image?w=1280&amp;h=720;)&quot;);background-size: 100% 100%;">
+                    </div>
+                    <div style="text-align: center; padding: 10px;">
+                            <strong>Glacier suisse en danger</strong>
+                            <p>Les glaciers alpins reculent à un rythme alarmant</p>
+                        </div>
+                    <p class="article-lead">L'initiative populaire "Pour une Suisse sans émissions de CO2 d'ici 2050" a été acceptée hier par 54.3% des votants. Ce texte contraignant impose des objectifs climatiques ambitieux à la Confédération et aux cantons.</p>
+                    <div class="article-content">
+                        <p>Le oui l'emporte dans 18 cantons et demi-cantons, dont les grands centres urbains. Les régions rurales et de montagne ont en majorité rejeté le texte, craignant pour leur développement économique. Cette initiative, lancée par une association de jeunes scientifiques et alpinistes, prévoit notamment l'interdiction des énergies fossiles d'ici 2040 et des investissements massifs dans les énergies renouvelables.</p>
+                        <p>Le Conseil fédéral avait recommandé le rejet du texte, proposant à la place son contre-projet indirect. Malgré cela, la mobilisation des jeunes électeurs et la sensibilisation croissante aux enjeux climatiques ont permis l'adoption de cette mesure historique.</p>
+                        <p>Les conséquences seront importantes pour l'industrie suisse, particulièrement dans les secteurs de l'automobile, du transport et du bâtiment. Des programmes d'accompagnement sont prévus pour les entreprises et les ménages les plus affectés par cette transition écologique accélérée.</p>
+                    </div>
+                </article>
+            </div>
+            
+            <!-- Sidebar avec articles secondaires -->
+            <aside class="sidebar">
+                <h3>À la une</h3>
+                
+                <article class="sidebar-article">
+                    <h4><i class="fas fa-clock" style="color: #da291c;"></i> Record d'exportations horlogères en 2025</h4>
+                    <p>Le secteur horloger suisse annonce une croissance de 8.7% de ses exportations en 2025, atteignant un record historique de 28.4 milliards de francs. L'Asie reste le premier marché avec une demande en forte hausse.</p>
+                </article>
+                
+                <article class="sidebar-article">
+                    <h4><i class="fas fa-train" style="color: #4a90e2;"></i> Nouveau tunnel ferroviaire réduit le temps de trajet</h4>
+                    <p>Le chantier du tunnel de base du Gothard a franchi une étape cruciale avec la percée du deuxième tube. Une fois terminé, il réduira de 30 minutes le trajet Zurich-Milan.</p>
+                </article>
+                
+                <article class="sidebar-article">
+                    <h4><i class="fas fa-futbol" style="color: #2ecc71;"></i> Suisse vs Allemagne en quart de finale de l'Euro</h4>
+                    <p>L'équipe nationale de football affrontera l'Allemagne en quart de finale du championnat d'Europe. Le match aura lieu samedi à Berlin. Les Suisses sont motivés après leur parcours historique.</p>
+                </article>
+                
+                <article class="sidebar-article">
+                    <h4><i class="fas fa-paint-brush" style="color: #9b59b6;"></i> Nouvelle exposition au Musée des Beaux-Arts de Zurich</h4>
+                    <p>Une rétrospective exclusive consacrée à l'artiste suisse Félix Vallotton ouvrira ses portes le 15 janvier. Plus de 150 œuvres seront présentées, dont certaines jamais exposées auparavant.</p>
+                </article>
+                
+                <article class="sidebar-article">
+                    <h4><i class="fas fa-utensils" style="color: #e67e22;"></i> Hausse du prix du chocolat</h4>
+                    <p>La sécheresse en Afrique de l'Ouest a entraîné une pénurie de cacao, provoquant une hausse de 15% du prix du chocolat. Les fabricants suisses cherchent des alternatives durables.</p>
+                </article>
+            </aside>
+        </div>
+        
+        <!-- Section des brèves -->
+        <section class="news-briefs">
+            <div class="brief-item">
+                <h4><i class="fas fa-heartbeat"></i> Santé</h4>
+                <p>L'OFSP approuve un nouveau traitement contre la maladie d'Alzheimer. Les essais cliniques montrent une réduction de 40% de la progression de la maladie.</p>
+            </div>
+            
+            <div class="brief-item">
+                <h4><i class="fas fa-university"></i> Éducation</h4>
+                <p>L'EPFL se classe 12e mondiale dans le classement des universités en ingénierie. C'est la première fois qu'une école suisse entre dans le top 15.</p>
+            </div>
+            
+            <div class="brief-item">
+                <h4><i class="fas fa-train"></i> Transports</h4>
+                <p>Grève évitée chez les CFF: un accord salarial a été trouvé in extremis après 48 heures de négociations. Aucune perturbation n'est prévue sur le réseau.</p>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Pied de page -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Swiss Today</h4>
+                    <p>Le journal FAKE de référence en Suisse depuis 1898. Indépendant et engagé pour une information de qualité.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> Rue de la Paix 14, 1202 Genève</li>
+                        <li><i class="fas fa-phone"></i> +41 22 123 45 67</li>
+                        <li><i class="fas fa-envelope"></i> redaction@swisstoday.ch</li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Rubriques</h4>
+                    <ul>
+                        <li><a href="#">Politique</a></li>
+                        <li><a href="#">Économie</a></li>
+                        <li><a href="#">International</a></li>
+                        <li><a href="#">Sports</a></li>
+                        <li><a href="#">Culture</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Suivez-nous</h4>
+                    <ul>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-linkedin"></i> LinkedIn</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2026 Swiss Today. Tous droits réservés. ISSN 1424-1234</p>
+                <p><a href="#" style="color: #ffcc00;">Mentions légales</a> | <a href="#" style="color: #ffcc00;">Politique de confidentialité</a> | <a href="#" style="color: #ffcc00;">Gestion des cookies</a></p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Script pour mettre à jour la date automatiquement
+        function updateDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('fr-FR', options);
+            
+            // Capitaliser le premier caractère
+            const formattedDate = dateString.charAt(0).toUpperCase() + dateString.slice(1);
+            
+            document.querySelector('.date-info').innerHTML = `${formattedDate} | Édition No. 1234`;
+        }
+        
+        // Mettre à jour la date au chargement
+        document.addEventListener('DOMContentLoaded', updateDate);
+        
+        // Ajouter un effet de survol aux articles
+        const articles = document.querySelectorAll('.main-article, .sidebar-article, .brief-item');
+        
+        articles.forEach(article => {
+            article.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+                this.style.transition = 'transform 0.3s ease';
+                this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.1)';
+            });
+            
+            article.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = '';
+            });
+        });
+        
+        // Simuler la météo avec des températures aléatoires
+        function updateWeather() {
+            const cities = [
+                { name: 'Genève', temp: Math.floor(Math.random() * 5) + 2 },
+                { name: 'Zurich', temp: Math.floor(Math.random() * 4) + 1 },
+                { name: 'Lugano', temp: Math.floor(Math.random() * 6) + 6 }
+            ];
+            
+            const weatherText = cities.map(city => `${city.name}: ${city.temp}°C`).join(' | ');
+            document.querySelector('.weather-info span').innerHTML = weatherText;
+            
+            // Changer l'icône selon la température
+            const weatherIcon = document.querySelector('.weather-info i');
+            const avgTemp = cities.reduce((sum, city) => sum + city.temp, 0) / cities.length;
+            
+            if (avgTemp > 10) {
+                weatherIcon.className = 'fas fa-sun';
+            } else if (avgTemp > 0) {
+                weatherIcon.className = 'fas fa-cloud-sun';
+            } else {
+                weatherIcon.className = 'fas fa-snowflake';
+            }
+        }
+        
+        // Mettre à jour la météo toutes les 10 secondes (simulation)
+        setInterval(updateWeather, 10000);
+        updateWeather(); // Initial call
+                
+        document.addEventListener('DOMContentLoaded', addPlaceholderImages);
+    </script>
+</body>
+</html>
